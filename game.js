@@ -1,5 +1,6 @@
 let fame = 0, money = 100, skill = 50;
 let songs = [];
+let albums = [];
 let platforms = {spotify:{fame:1.5,money:2}, youtube:{fame:2,money:1}, tiktok:{fame:1,money:3}};
 
 const out = document.getElementById('output');
@@ -56,33 +57,7 @@ function showPerf() {
   print(`Show with '${songs[idx].name}'! Fame +${g}, Money +${g*3}`);
 }
 
-function tour() {
-  if (songs.length < 3) { print("Need 3+ songs."); return; }
-  let cities = ["London","Manchester","Birmingham","Glasgow"];
-  let tf=0, tm=0;
-  cities.forEach(city => {
-    let g = Math.floor(Math.random()*21)+10 + Math.floor(fame/10);
-    fame += g; money += g*4;
-    tf += g; tm += g*4;
-    print(`Performed in ${city}: Fame +${g}, Money +${g*4}`);
-  });
-  print(`Tour done! Total Fame +${tf}, Money +${tm}`);
-}
-
-function status() { print(`Fame: ${fame} | Money: $${money} | Skill: ${skill}`); }
-
-function runCommand() {
-  let cmd = document.getElementById('input').value.toLowerCase().trim();
-  document.getElementById('input').value = '';
-  if (cmd === "create") createSong();
-  else if (cmd === "catalog") catalog();
-  else if (cmd === "release") release();
-  else if (cmd === "perform") perform();
-  else if (cmd === "show") showPerf();
-  else if (cmd === "tour") tour();
-  else if (cmd === "status") status();
-  else if (cmd === "quit") print("Game ended.");
-  else print("Commands: create, catalog, release, perform, show, tour, status, quit");
-}
-
-print("Musician Manager ready. Type commands.");
+function makeAlbum() {
+  if (songs.length < 3) { print("Need at least 3 songs."); return; }
+  let unreleased = songs.filter(s => !s.released);
+  if (unreleased.length < 3) { print("Need at least 3 unreleased songs.");
